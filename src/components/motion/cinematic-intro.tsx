@@ -81,6 +81,11 @@ export function CinematicIntro({ onComplete }: CinematicIntroProps) {
             { yPercent: 110, stagger: 0.05, duration: 0.45 },
             "-=0.05",
           )
+          .from(
+            "[data-intro-brand]",
+            { y: 16, autoAlpha: 0, duration: 0.4 },
+            "-=0.15",
+          )
           .to("[data-intro-curtain-left]", { xPercent: -100, duration: 0.65 }, "+=0.1")
           .to("[data-intro-curtain-right]", { xPercent: 100, duration: 0.65 }, "<")
           .to(root, { autoAlpha: 0, duration: 0.3 }, "-=0.2");
@@ -163,6 +168,12 @@ export function CinematicIntro({ onComplete }: CinematicIntroProps) {
             </span>
           ))}
         </div>
+        <p
+          data-intro-brand
+          className="mt-5 font-display text-sm uppercase tracking-[0.42em] text-gold-soft sm:text-base"
+        >
+          LUCCICRENO
+        </p>
       </div>
 
       <div

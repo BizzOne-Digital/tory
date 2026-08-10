@@ -1,6 +1,10 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import {
+  useState,
+  useSyncExternalStore,
+  type ReactNode,
+} from "react";
 import { usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
 
@@ -24,29 +28,35 @@ const ScrollProgress = dynamic(
   { ssr: false },
 );
 
-type Phase = "boot" | "intro" | "site";
+function subscribeIntroSeen() {
+  return () => {};
+}
+
+function getIntroSeen(): boolean {
+  try {
+    return sessionStorage.getItem("lc-intro-seen") === "1";
+  } catch {
+    return true;
+  }
+}
+
+function getIntroSeenServer(): boolean {
+  return false;
+}
 
 export function MotionProviders({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith("/admin");
-  const [phase, setPhase] = useState<Phase>("boot");
-
-  useEffect(() => {
-    if (isAdmin) {
-      setPhase("site");
-      return;
-    }
-    try {
-      const seen = sessionStorage.getItem("lc-intro-seen") === "1";
-      setPhase(seen ? "site" : "intro");
-    } catch {
-      setPhase("site");
-    }
-  }, [isAdmin]);
+  const introSeen = useSyncExternalStore(
+    subscribeIntroSeen,
+    getIntroSeen,
+    getIntroSeenServer,
+  );
+  const [introJustFinished, setIntroJustFinished] = useState(false);
 
   if (isAdmin) return <>{children}</>;
 
-  const siteReady = phase === "site";
+  const siteReady = introSeen || introJustFinished;
 
   return (
     <>
@@ -55,7 +65,7 @@ export function MotionProviders({ children }: { children: ReactNode }) {
         <div className="fixed inset-0 z-[280] bg-ink" aria-hidden />
       ) : null}
 
-      {phase === "intro" ? (
+      {!siteReady ? (
         <CinematicIntro
           onComplete={() => {
             try {
@@ -63,7 +73,7 @@ export function MotionProviders({ children }: { children: ReactNode }) {
             } catch {
               /* ignore */
             }
-            setPhase("site");
+            setIntroJustFinished(true);
           }}
         />
       ) : null}

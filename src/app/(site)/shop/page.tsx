@@ -1,38 +1,53 @@
 import type { Metadata } from "next";
-import { PageHeroBlock } from "@/components/content/PageHero";
+import { ServicesHero } from "@/components/services/ServicesHero";
 import { ShopCatalog } from "@/components/shop/ShopCatalog";
+import { Marquee } from "@/components/motion/marquee";
 import { getSettings } from "@/lib/queries/settings";
 import { getPublishedProducts } from "@/lib/queries/catalog";
+import { getPageBySlug } from "@/lib/queries/pages";
 import { safeQuery } from "@/lib/safe-query";
-import type { ProductData } from "@/types/cms";
+import type { PageData, ProductData } from "@/types/cms";
 import type { FooterSettings } from "@/components/site/Footer";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Shop",
-    description: "Explore the LUCCI CRENO collection — timeless pieces crafted for enduring elegance.",
+    description:
+      "Shop LUCCI CRENO — hats, t-shirts, sweaters, sweatsuits, and denim.",
   };
 }
 
 export default async function ShopPage() {
-  const [products, settings] = await Promise.all([
+  const [page, products, settings] = await Promise.all([
+    safeQuery(() => getPageBySlug("shop") as Promise<PageData | null>, null),
     safeQuery(() => getPublishedProducts() as Promise<ProductData[]>, []),
     safeQuery(() => getSettings() as Promise<FooterSettings>, {}),
   ]);
 
   return (
     <>
-      <PageHeroBlock
-        hero={{
-          eyebrow: "Collection",
-          title: "The Shop",
-          subtitle: "Curated silhouettes from the Summer Atelier Edit",
-          background: products[0]?.images?.[0],
-        }}
-        size="compact"
+      <ServicesHero
+        eyebrow={page?.hero?.eyebrow || "Collection"}
+        title={page?.hero?.title || "The Shop"}
+        subtitle={
+          page?.hero?.subtitle ||
+          "Hats, tees, sweaters, sweatsuits, and denim — genuine luxury you wear."
+        }
+        background={
+          page?.hero?.background ?? products[0]?.images?.[0] ?? undefined
+        }
       />
+
+      <Marquee
+        items={["Hats", "T-Shirts", "Sweaters", "Sweatsuits", "Denim", "LUCCICRENO"]}
+        speed={34}
+      />
+
       <div className="container-wide section-pad">
-        <ShopCatalog products={products} currency={settings.currency ?? "USD"} />
+        <ShopCatalog
+          products={products}
+          currency={settings.currency ?? "USD"}
+        />
       </div>
     </>
   );

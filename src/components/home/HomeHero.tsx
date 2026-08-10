@@ -67,12 +67,20 @@ export function HomeHero({
 
       <div className="container-wide relative flex min-h-[100svh] flex-col justify-center pb-28 pt-28 lg:pb-32 lg:pt-32">
         <motion.p
-          className="eyebrow mb-5 text-gold-soft"
+          className="eyebrow mb-2 text-gold-soft"
           initial={reduced ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.15, ease }}
         >
           Welcome Home
+        </motion.p>
+        <motion.p
+          className="mb-5 font-display text-sm uppercase tracking-[0.42em] text-ivory/90 sm:text-base"
+          initial={reduced ? false : { opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.22, ease }}
+        >
+          LUCCICRENO
         </motion.p>
 
         <h1
