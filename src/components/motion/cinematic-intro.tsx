@@ -1,6 +1,5 @@
 "use client";
 
-import { Logo } from "@/components/brand/Logo";
 import { usePrefersReducedMotion } from "@/lib/hooks/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
 import gsap from "gsap";
@@ -61,15 +60,9 @@ export function CinematicIntro({ onComplete }: CinematicIntroProps) {
           onComplete: finish,
         });
 
-        tl.from("[data-intro-monogram]", {
-            scale: 0.82,
-            autoAlpha: 0,
-            duration: 0.5,
-          })
-          .from(
+        tl.from(
             "[data-intro-progress]",
             { scaleX: 0, transformOrigin: "left center", duration: 0.7 },
-            "-=0.15",
           )
           .from(
             "[data-intro-word]",
@@ -109,7 +102,9 @@ export function CinematicIntro({ onComplete }: CinematicIntroProps) {
         className="fixed inset-0 z-[290] flex items-center justify-center bg-ink"
         aria-hidden
       >
-        <Logo variant="monogram" className="h-14 w-14 text-ivory" />
+        <p className="font-display text-sm uppercase tracking-[0.32em] text-ivory/85">
+          Genuine Luxury Forever
+        </p>
       </div>
     );
   }
@@ -135,10 +130,6 @@ export function CinematicIntro({ onComplete }: CinematicIntroProps) {
       </button>
 
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-ivory">
-        <div data-intro-monogram className="mb-10">
-          <Logo variant="monogram" className="h-16 w-16 text-gold-soft" />
-        </div>
-
         <div className="mb-8 h-px w-40 overflow-hidden bg-ivory/15">
           <div
             data-intro-progress
