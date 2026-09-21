@@ -117,6 +117,10 @@ function productImg(filename: string, alt: string, caption = ""): ImageMeta {
   return img(`/uploads/products/${filename}`, alt, caption);
 }
 
+function pageImg(filename: string, alt: string, caption = ""): ImageMeta {
+  return img(`/uploads/pages/${filename}`, alt, caption);
+}
+
 async function seedAdminUser() {
   const passwordHash = await bcrypt.hash(ADMIN_PASSWORD, 12);
   await AdminUser.findOneAndUpdate(
@@ -275,6 +279,26 @@ const PAGE_SEEDS: PageSeed[] = [
         order: 3,
       },
     ],
+  },
+  {
+    title: "Shop",
+    slug: "shop",
+    route: "/shop",
+    seo: {
+      title: "Shop — LUCCI CRENO",
+      description: "Shop LUCCI CRENO apparel and accessories.",
+    },
+    hero: {
+      eyebrow: "Collection",
+      title: "The Shop",
+      subtitle:
+        "Hats, tees, sweatshirts, denim, and trousers — genuine luxury you wear.",
+      background: pageImg(
+        "shop-hero.png",
+        "LUCCI CRENO collection on a clothing rack",
+      ),
+    },
+    sections: [],
   },
   {
     title: "About",

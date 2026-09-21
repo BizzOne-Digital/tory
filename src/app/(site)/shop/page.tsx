@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Shop",
     description:
-      "Shop LUCCI CRENO — hats, t-shirts, sweaters, sweatsuits, and denim.",
+      "Shop LUCCI CRENO — hats, t-shirts, sweatshirts, denim, and trousers.",
   };
 }
 
@@ -34,12 +34,22 @@ export default async function ShopPage() {
           "Hats, tees, sweaters, sweatsuits, and denim — genuine luxury you wear."
         }
         background={
-          page?.hero?.background ?? products[0]?.images?.[0] ?? undefined
+          page?.hero?.background ?? {
+            url: "/uploads/pages/shop-hero.png",
+            alt: "LUCCI CRENO collection on a clothing rack",
+          }
         }
       />
 
       <Marquee
-        items={["Hats", "T-Shirts", "Sweaters", "Sweatsuits", "Denim", "LUCCICRENO"]}
+        items={[
+          "Hats",
+          "T-Shirts",
+          "Sweatshirts",
+          "Denim",
+          "Trousers",
+          "LUCCICRENO",
+        ]}
         speed={34}
       />
 
