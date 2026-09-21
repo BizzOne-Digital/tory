@@ -567,7 +567,7 @@ const PRODUCT_SEEDS = [
     priceMinor: 18500,
     featured: true,
     isNewArrival: true,
-    categories: ["Jackets"],
+    categories: ["Denim"],
     collections: ["LUCCICRENO"],
     images: [
       productImg("coach-jacket-front.jpg", "LUCCICRENO coach jacket — front"),
@@ -584,7 +584,7 @@ const PRODUCT_SEEDS = [
     priceMinor: 20000,
     featured: true,
     isNewArrival: true,
-    categories: ["Jackets", "Denim"],
+    categories: ["Denim"],
     collections: ["LUCCICRENO"],
     images: [
       productImg("denim-truck-white.jpg", "Denim LUCCICRENO truck — white"),
@@ -620,7 +620,7 @@ const PRODUCT_SEEDS = [
     sku: "LC-PNT-CARGO-001",
     priceMinor: 10000,
     featured: true,
-    categories: ["Pants"],
+    categories: ["Trousers"],
     collections: ["LUCCICRENO"],
     images: [
       productImg(

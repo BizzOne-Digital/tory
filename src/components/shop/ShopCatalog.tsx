@@ -17,19 +17,19 @@ export const SHOP_SECTIONS = [
     description: "Essential layers with atelier ease.",
   },
   {
-    id: "sweaters",
-    label: "Sweaters",
-    description: "Knitwear for quiet warmth and polish.",
-  },
-  {
-    id: "sweatsuits",
-    label: "Sweatsuits",
-    description: "Leisure sets refined for everyday luxury.",
+    id: "sweatshirts",
+    label: "Sweatshirts",
+    description: "Relaxed crewnecks with signature LUCCI CRENO detail.",
   },
   {
     id: "denim",
     label: "Denim",
     description: "Washes and silhouettes built to last.",
+  },
+  {
+    id: "trousers",
+    label: "Trousers",
+    description: "Cargo and tailored bottoms for everyday wear.",
   },
 ] as const;
 
