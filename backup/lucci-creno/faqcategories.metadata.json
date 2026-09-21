@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"},{"v":{"$numberInt":"2"},"key":{"slug":{"$numberInt":"1"}},"name":"slug_1","unique":true}],"uuid":"cda1a7cc62b44289b76f70e15c7a6ef8","collectionName":"faqcategories","type":"collection"}
