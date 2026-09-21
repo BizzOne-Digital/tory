@@ -1,11 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { BlogCard } from "@/components/blog/BlogCard";
 import { HomeHero } from "@/components/home/HomeHero";
-import { LookbookStrip } from "@/components/home/LookbookStrip";
 import { ImageReveal } from "@/components/motion/image-reveal";
 import { Marquee } from "@/components/motion/marquee";
-import { ProductCard } from "@/components/shop/ProductCard";
 import { SafeImage } from "@/components/ui/SafeImage";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -13,18 +10,12 @@ import { TestimonialCarousel } from "@/components/testimonials/TestimonialCarous
 import { getSettings } from "@/lib/queries/settings";
 import { getPageBySlug } from "@/lib/queries/pages";
 import {
-  getBlogPosts,
-  getGalleryData,
-  getPublishedProducts,
   getPublishedServices,
   getTestimonials,
 } from "@/lib/queries/catalog";
 import { safeQuery } from "@/lib/safe-query";
 import type {
-  BlogPostData,
-  GalleryImageData,
   PageData,
-  ProductData,
   ServiceData,
   TestimonialData,
 } from "@/types/cms";
@@ -45,42 +36,25 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const [page, settings, products, services, gallery, testimonials, posts] =
-    await Promise.all([
+  const [page, settings, services, testimonials] = await Promise.all([
       safeQuery(() => getPageBySlug("home") as Promise<PageData | null>, null),
       safeQuery(() => getSettings() as Promise<FooterSettings>, {}),
-      safeQuery(
-        () => getPublishedProducts(8) as Promise<ProductData[]>,
-        [],
-      ),
       safeQuery(
         () => getPublishedServices() as Promise<ServiceData[]>,
         [],
       ),
       safeQuery(
-        () =>
-          getGalleryData() as Promise<{
-            categories: unknown[];
-            images: GalleryImageData[];
-          }>,
-        { categories: [], images: [] },
-      ),
-      safeQuery(
         () => getTestimonials(true) as Promise<TestimonialData[]>,
         [],
       ),
-      safeQuery(() => getBlogPosts(3) as Promise<BlogPostData[]>, []),
     ]);
 
   const hero = page?.hero;
   const intro = page?.sections?.find((s) => s.key === "intro");
-  const featured = products.filter((p) => p.featured).slice(0, 4);
-  const featuredProducts = featured.length ? featured : products.slice(0, 4);
   const featuredServices = services.filter((s) => s.featured).slice(0, 3);
   const serviceCards = featuredServices.length
     ? featuredServices
     : services.slice(0, 3);
-  const lookbook = gallery.images.slice(0, 8);
   const editorialImage = hero?.images?.[0] ?? intro?.images?.[0];
   const editorialSecondary = hero?.images?.[1] ?? intro?.images?.[0];
 
@@ -135,36 +109,6 @@ export default async function HomePage() {
               sizes="(max-width:1024px) 100vw, 45vw"
             />
           </ImageReveal>
-        </div>
-      </section>
-
-      <section className="section-pad border-t border-border/70 bg-cream/40">
-        <div className="container-wide">
-          <SectionHeading
-            eyebrow="Curated"
-            title="Featured Pieces"
-            body="Seasonal silhouettes selected by the atelier."
-          />
-          {featuredProducts.length ? (
-            <div className="mt-12 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-              {featuredProducts.map((product, i) => (
-                <ProductCard
-                  key={product._id}
-                  product={product}
-                  currency={settings.currency}
-                  priority={i < 2}
-                  className=""
-                />
-              ))}
-            </div>
-          ) : (
-            <p className="mt-10 text-muted">Collection arriving soon.</p>
-          )}
-          <Reveal className="mt-10 text-center">
-            <Link href="/shop" className="btn-secondary no-underline">
-              View all pieces
-            </Link>
-          </Reveal>
         </div>
       </section>
 
@@ -249,25 +193,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {lookbook.length ? (
-        <section className="section-pad overflow-hidden bg-ink py-20 text-ivory md:py-28">
-          <div className="container-wide mb-8 flex flex-col gap-4 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
-            <SectionHeading
-              eyebrow="Lookbook"
-              title="Visual Strip"
-              className="mb-0 text-ivory [&_.eyebrow]:text-gold [&_p]:text-ivory/60"
-            />
-            <Link
-              href="/gallery"
-              className="eyebrow link-underline shrink-0 text-gold-soft no-underline"
-            >
-              View gallery
-            </Link>
-          </div>
-          <LookbookStrip images={lookbook} />
-        </section>
-      ) : null}
-
       {settings.seasonalOffer?.active && settings.seasonalOffer.text ? (
         <Reveal>
           <section className="relative overflow-hidden bg-gradient-to-r from-ink via-ink-soft to-ink px-6 py-20 text-ivory">
@@ -298,29 +223,6 @@ export default async function HomePage() {
         eyebrow="Client Stories"
         title="What Clients Say"
       />
-
-      <section className="section-pad border-t border-border/70 bg-sand/20">
-        <div className="container-wide">
-          <div className="mb-10 flex items-end justify-between gap-6">
-            <SectionHeading eyebrow="Journal" title="Atelier Notes" />
-            <Link
-              href="/blog"
-              className="eyebrow link-underline text-ink no-underline"
-            >
-              Read all
-            </Link>
-          </div>
-          {posts.length ? (
-            <div className="grid gap-10 md:grid-cols-3">
-              {posts.map((post) => (
-                <BlogCard key={post._id} post={post} />
-              ))}
-            </div>
-          ) : (
-            <p className="text-muted">Journal entries coming soon.</p>
-          )}
-        </div>
-      </section>
 
       <section className="section-pad">
         <Reveal>

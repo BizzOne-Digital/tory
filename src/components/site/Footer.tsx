@@ -50,7 +50,6 @@ const DEFAULT_GROUPS = [
     links: [
       { label: "Shop", href: "/shop" },
       { label: "Services", href: "/services" },
-      { label: "Gallery", href: "/gallery" },
       { label: "Testimonials", href: "/testimonials" },
     ],
   },
@@ -58,7 +57,6 @@ const DEFAULT_GROUPS = [
     title: "House",
     links: [
       { label: "About", href: "/about" },
-      { label: "Journal", href: "/blog" },
       { label: "FAQ", href: "/faq" },
       { label: "Contact", href: "/contact" },
     ],

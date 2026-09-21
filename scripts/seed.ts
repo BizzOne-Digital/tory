@@ -162,14 +162,12 @@ async function seedSiteSettings() {
             links: [
               { label: "Shop", href: "/shop" },
               { label: "Services", href: "/services" },
-              { label: "Gallery", href: "/gallery" },
             ],
           },
           {
             title: "House",
             links: [
               { label: "About", href: "/about" },
-              { label: "Journal", href: "/blog" },
               { label: "Contact", href: "/contact" },
             ],
           },
@@ -365,35 +363,6 @@ const PAGE_SEEDS: PageSeed[] = [
     ],
   },
   {
-    title: "Gallery",
-    slug: "gallery",
-    route: "/gallery",
-    hero: {
-      eyebrow: "Visual Journal",
-      title: "Gallery",
-      subtitle: "Editorial moments from the atelier",
-      background: img(UNSPLASH.editorial1, "Gallery hero"),
-      images: [
-        img(UNSPLASH.editorial2, "Runway moment"),
-        img(UNSPLASH.editorial3, "Studio portrait"),
-      ],
-    },
-    sections: [
-      {
-        key: "collections",
-        type: "masonry",
-        title: "Collections",
-        body: "Browse runway, lookbook, and behind-the-scenes imagery.",
-        images: [
-          img(UNSPLASH.editorial4, "Collection still"),
-          img(UNSPLASH.fashion1, "Lookbook frame"),
-          img(UNSPLASH.fashion5, "Detail shot"),
-        ],
-        order: 0,
-      },
-    ],
-  },
-  {
     title: "Testimonials",
     slug: "testimonials",
     route: "/testimonials",
@@ -430,27 +399,6 @@ const PAGE_SEEDS: PageSeed[] = [
         type: "faq-list",
         title: "Common Questions",
         body: "Ordering, fittings, care, and returns — answered.",
-        order: 0,
-      },
-    ],
-  },
-  {
-    title: "Journal",
-    slug: "blog",
-    route: "/blog",
-    hero: {
-      eyebrow: "The Journal",
-      title: "Atelier Notes",
-      subtitle: "Stories, style, and craft",
-      background: img(UNSPLASH.editorial2, "Blog hero"),
-      images: [img(UNSPLASH.editorial3, "Journal spread")],
-    },
-    sections: [
-      {
-        key: "latest",
-        type: "blog-grid",
-        title: "Latest Posts",
-        body: "Insights from the atelier floor.",
         order: 0,
       },
     ],
@@ -563,6 +511,9 @@ const PAGE_SEEDS: PageSeed[] = [
 ];
 
 async function seedPages() {
+  const pageSlugs = PAGE_SEEDS.map((p) => p.slug);
+  await Page.deleteMany({ slug: { $nin: pageSlugs } });
+
   for (const p of PAGE_SEEDS) {
     await Page.findOneAndUpdate(
       { slug: p.slug },
@@ -627,6 +578,43 @@ const PRODUCT_SEEDS = [
     ],
   },
   {
+    name: "Denim LUCCICRENO Truck",
+    slug: "denim-luccicreno-truck",
+    sku: "LC-JKT-DENIM-TRUCK-001",
+    priceMinor: 20000,
+    featured: true,
+    isNewArrival: true,
+    categories: ["Jackets", "Denim"],
+    collections: ["LUCCICRENO"],
+    images: [
+      productImg("denim-truck-white.jpg", "Denim LUCCICRENO truck — white"),
+      productImg("denim-truck-blue.jpg", "Denim LUCCICRENO truck — blue"),
+    ],
+    variants: [
+      { name: "Size", options: ["S", "M", "L", "XL"], inventory: 20 },
+      { name: "Colour", options: ["White", "Blue"], inventory: 20 },
+    ],
+  },
+  {
+    name: "LUCCICRENO Sweatshirt",
+    slug: "luccicreno-sweatshirt",
+    sku: "LC-SWT-001",
+    priceMinor: 6500,
+    featured: true,
+    isNewArrival: true,
+    categories: ["Sweatshirts"],
+    collections: ["LUCCICRENO"],
+    images: [
+      productImg(
+        "luccicreno-sweatshirt-brown.jpg",
+        "LUCCICRENO sweatshirt — brown",
+      ),
+    ],
+    variants: [
+      { name: "Size", options: ["S", "M", "L", "XL"], inventory: 24 },
+    ],
+  },
+  {
     name: "LUCCICRENO Stay Ready Cargo",
     slug: "luccicreno-stay-ready-cargo",
     sku: "LC-PNT-CARGO-001",
@@ -671,7 +659,10 @@ const PRODUCT_SEEDS = [
 
 async function seedProducts() {
   const slugs = PRODUCT_SEEDS.map((p) => p.slug);
-  await Product.deleteMany({ slug: { $nin: slugs } });
+  const removed = await Product.deleteMany({ slug: { $nin: slugs } });
+  if (removed.deletedCount > 0) {
+    console.log(`  · Removed ${removed.deletedCount} legacy product(s)`);
+  }
 
   for (const p of PRODUCT_SEEDS) {
     await Product.findOneAndUpdate(

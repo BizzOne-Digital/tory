@@ -5,10 +5,8 @@ export function revalidatePublicContent(paths: string[] = []) {
     "/",
     "/shop",
     "/services",
-    "/gallery",
     "/testimonials",
     "/faq",
-    "/blog",
     "/contact",
     "/about",
   ];
