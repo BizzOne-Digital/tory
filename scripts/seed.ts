@@ -147,7 +147,7 @@ async function seedSiteSettings() {
         brandName: "LUCCI CRENO",
         shortStatement: "Create genuine luxury you wear…",
         email: "luccicreno873@yahoo.com",
-        phone: "7174250354",
+        phone: "",
         socialHandle: "LUCCICRENO",
         socialLinks: {
           instagram: "https://instagram.com/LUCCICRENO",
@@ -435,7 +435,7 @@ const PAGE_SEEDS: PageSeed[] = [
       eyebrow: "Get in Touch",
       title: "Contact",
       subtitle: "We'd love to hear from you",
-      body: "Email luccicreno873@yahoo.com or call 7174250354.",
+      body: "Email luccicreno873@yahoo.com — we reply within one business day.",
       background: img(UNSPLASH.atelier1, "Contact hero"),
     },
     sections: [
@@ -1094,7 +1094,7 @@ const FAQ_SEEDS: Record<string, { question: string; answer: string }[]> = {
     {
       question: "How do I book a fitting?",
       answer:
-        "Email luccicreno873@yahoo.com or call 7174250354 to schedule a private appointment.",
+        "Email luccicreno873@yahoo.com to schedule a private appointment.",
     },
     {
       question: "Are consultations complimentary?",

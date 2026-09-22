@@ -11,7 +11,7 @@ const SiteSettingsSchema = new Schema(
       default: "Create genuine luxury you wear…",
     },
     email: { type: String, default: "luccicreno873@yahoo.com" },
-    phone: { type: String, default: "7174250354" },
+    phone: { type: String, default: "" },
     socialHandle: { type: String, default: "LUCCICRENO" },
     socialLinks: {
       instagram: { type: String, default: "https://instagram.com/LUCCICRENO" },

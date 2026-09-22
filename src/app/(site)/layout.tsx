@@ -7,7 +7,6 @@ import { safeQuery } from "@/lib/safe-query";
 const FALLBACK_SETTINGS: FooterSettings = {
   brandName: "LUCCI CRENO",
   email: "luccicreno873@yahoo.com",
-  phone: "7174250354",
 };
 
 export default async function SiteLayout({ children }: { children: ReactNode }) {

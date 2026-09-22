@@ -63,14 +63,6 @@ const DEFAULT_GROUPS = [
   },
 ];
 
-function formatPhone(phone: string) {
-  const digits = phone.replace(/\D/g, "");
-  if (digits.length === 10) {
-    return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
-  }
-  return phone;
-}
-
 function NewsletterForm({ cta }: { cta: string }) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
@@ -252,16 +244,6 @@ export function Footer({ settings, className }: FooterProps) {
                       className="break-all transition-colors hover:text-ivory"
                     >
                       {settings.email}
-                    </a>
-                  </li>
-                ) : null}
-                {settings.phone ? (
-                  <li>
-                    <a
-                      href={`tel:${settings.phone.replace(/\D/g, "")}`}
-                      className="transition-colors hover:text-ivory"
-                    >
-                      {formatPhone(settings.phone)}
                     </a>
                   </li>
                 ) : null}

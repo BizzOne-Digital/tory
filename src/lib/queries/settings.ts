@@ -12,7 +12,7 @@ export async function getSettings() {
           await SiteSettings.create({
             key: "default",
             email: "luccicreno873@yahoo.com",
-            phone: "7174250354",
+            phone: "",
             socialHandle: "LUCCICRENO",
           })
         ).toObject();

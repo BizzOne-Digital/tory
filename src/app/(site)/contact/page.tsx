@@ -25,15 +25,6 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-function formatPhone(phone?: string) {
-  if (!phone) return "";
-  const digits = phone.replace(/\D/g, "");
-  if (digits.length === 10) {
-    return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
-  }
-  return phone;
-}
-
 export default async function ContactPage() {
   const [page, settings] = await Promise.all([
     safeQuery(
@@ -47,7 +38,6 @@ export default async function ContactPage() {
   const locationSection = page?.sections?.find((s) => s.key === "location");
 
   const email = settings.email || "luccicreno873@yahoo.com";
-  const phone = settings.phone || "7174250354";
   const handle = settings.socialHandle || "LUCCICRENO";
 
   const images = {
@@ -151,17 +141,6 @@ export default async function ContactPage() {
                       className="mt-1 block break-all text-lg text-ink no-underline transition-colors hover:text-ink-soft"
                     >
                       {email}
-                    </a>
-                  </li>
-                  <li>
-                    <p className="text-[0.65rem] uppercase tracking-[0.22em] text-muted">
-                      Phone
-                    </p>
-                    <a
-                      href={`tel:${phone.replace(/\D/g, "")}`}
-                      className="mt-1 block text-lg text-ink no-underline transition-colors hover:text-ink-soft"
-                    >
-                      {formatPhone(phone)}
                     </a>
                   </li>
                   {settings.address ? (
